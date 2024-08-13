@@ -1,6 +1,5 @@
 package playground;
 
-import io.opentelemetry.exporter.logging.SystemOutLogRecordExporter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.testng.Assert;
@@ -13,24 +12,27 @@ public class Activity {
     Write a test that navigate to Facebook.com
     and print Title
      */
-    private WebDriver driver
+    private WebDriver driver;
+
     @BeforeMethod
-    public void FaceBookTest(){
+    public void FaceBookTest() {
         driver = new EdgeDriver();
-        driver.get("facebook.com");{
+        driver.get("https://facebook.com");
+    }
 
-            @Test
-                    public void testFaceBookTitle(){
-                String applicationTitle = driver.getTitle();
-                Assert.assertEquals(applicationTitle," Facebook- log in or  sign up");
-
-            }
-            @AfterMethod
-                    public void cleanUpTest(){
-                driver.quit();
-            }
-
-        }
+    @Test
+    public void testFaceBookTitle() {
+        String applicationTitle = driver.getTitle();
+        Assert.assertEquals(applicationTitle,"Facebook - log in or sign up");
 
     }
+
+    @AfterMethod
+    public void cleanUpTest() {
+        driver.quit();
+    }
+
 }
+
+
+
