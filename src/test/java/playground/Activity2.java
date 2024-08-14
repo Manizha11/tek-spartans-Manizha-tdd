@@ -1,6 +1,7 @@
 package playground;
 
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 public class Activity2 {
@@ -27,7 +28,7 @@ public class Activity2 {
 
     @Test
     public void testFullName() {
-        String firstName = "Manizha";
+        String firstName = "MANIZHA";
         String lastName = "Buribekova";
         String fullName = generateFullName(firstName, lastName);
         Assert.assertEquals(fullName, "MANIZHA, Buribekova");
@@ -36,6 +37,51 @@ public class Activity2 {
     private String generateFullName(String firstName, String lastName) {
         return ("MANIZHA, Buribekova");
     }
+    @Test(dataProvider = "positiveTestData")
+    public void positiveTesting(String firstName, String lastName, String expectedFullName) {
+        String fullName = getFullName(firstName, lastName);
+
+        Assert.assertEquals(fullName, expectedFullName, "FullName should match format");
+    }
+
+    private String getFullName(String firstName, String lastName) {
+        return firstName;
+    }
+
+    @DataProvider(name = "positiveTestData")
+    private String[][] positiveTestData() {
+        String[][] data = {
+                {"mohammad", "shokriyan", "SHOKRIYAN, Mohammad" },
+                {"JoHN", "SMITH", "SMITH, John" },
+                {" ALEN ", " smith ", "SMITH, Alen" },
+
+        };
+        return data;
+    }
+
+    @Test
+    public void negativeTesting() {
+        try {
+            getFullName(null, null);
+            Assert.fail("Test Supposed to throw Exception");
+        }catch (RuntimeException ex) {
+            Assert.assertTrue(true, "Catch the Exception Passing the Test");
+        }
+    }
+
+    @Test(expectedExceptions = {RuntimeException.class})
+    public void testNegativeWithExpectedException() {
+        getFullName("", null);
+    }
+
+    @Test
+    public void testNegativeWithAssertionThrow() {
+        Assert.assertThrows(RuntimeException.class, () -> {
+            getFullName("", "");
+        });
+    }
+
+
 
 }
 
